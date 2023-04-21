@@ -17,7 +17,7 @@ public class ExerciseService {
         return exerciseRepository.save(exercise);
     }
 
-    public Exercise getExerciseById(String id) {
+    public Exercise getExerciseById(Long id) {
         return exerciseRepository.findById(id).orElse(null);
     }
 
@@ -29,7 +29,7 @@ public class ExerciseService {
         return exerciseRepository.save(exercise);
     }
 
-    public void deleteExercise(String id) {
+    public void deleteExercise(Long id) {
         exerciseRepository.deleteById(id);
     }
 }

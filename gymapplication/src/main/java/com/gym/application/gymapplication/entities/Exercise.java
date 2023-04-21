@@ -1,15 +1,19 @@
 package com.gym.application.gymapplication.entities;
 
 import java.util.Date;
-import java.util.Date;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "exercises")
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+
+@Entity()
 public class Exercise {
 
-    @Id
-    private String id;
+    @javax.persistence.Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
 
     private String category;
     private String bodySection;
@@ -43,12 +47,13 @@ public class Exercise {
     public Exercise(){}
 
     // Getter and Setter methods
-    public String getId() {
-        return id;
+
+    public Long getId() {
+        return Id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(Long id) {
+        Id = id;
     }
 
     public String getCategory() {
