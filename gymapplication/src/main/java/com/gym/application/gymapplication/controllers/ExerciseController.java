@@ -130,7 +130,7 @@ public class ExerciseController {
         exerciseApi.setCategory(exercise.getCategory());
         exerciseApi.setBodySection(exercise.getBodySection());
         exerciseApi.setEquipments(exercise.getEquipment().split(","));
-        exerciseApi.setName(exerciseApi.getName());
+        exerciseApi.setName(exercise.getName());
         exerciseApi.setPrimaryMuscles(exercise.getPrimaryMuscle().split(","));
         exerciseApi.setSecondaryMuscles(exercise.getSecondaryMuscle().split(","));
         exerciseApi.setCreatedOn(exercise.getCreatedOn());
