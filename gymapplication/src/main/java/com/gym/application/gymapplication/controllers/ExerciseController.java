@@ -136,6 +136,7 @@ public class ExerciseController {
         exerciseApi.setCreatedOn(exercise.getCreatedOn());
         exerciseApi.setVideoLink(exercise.getVideoLink());
         exerciseApi.setPictureLink(exercise.getPictureLink());
+        exerciseApi.setId(exercise.getId());
         return  exerciseApi;
     }
 }
