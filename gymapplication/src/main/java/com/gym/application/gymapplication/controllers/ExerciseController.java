@@ -60,7 +60,8 @@ public class ExerciseController {
     @GetMapping("/{exerciseId}")
     public  ResponseEntity<?> getExerciseById(@PathVariable("exerciseId") String exerciseId) throws  Exception{
         try {
-            return  ResponseEntity.ok(this.exerciseService.getExerciseById(exerciseId));
+
+            return  ResponseEntity.ok(convertToApi(this.exerciseService.getExerciseById(exerciseId)));
         }catch (Exception e){
             throw  new Exception("Exception happened while trying to get exercise");
         }
