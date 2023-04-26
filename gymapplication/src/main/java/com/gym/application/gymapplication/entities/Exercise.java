@@ -1,6 +1,7 @@
 package com.gym.application.gymapplication.entities;
 
 import java.util.Date;
+import java.util.UUID;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,9 +12,8 @@ import javax.persistence.Id;
 @Entity()
 public class Exercise {
 
-    @javax.persistence.Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    @Id
+    private String Id = UUID.randomUUID().toString();
 
     private String category;
     private String bodySection;
@@ -23,7 +23,7 @@ public class Exercise {
     private String secondaryMuscle;
     private int exerciseId;
     private String exerciseType;
-    private Date createdOn;
+    private Date createdOn = new Date();
     private String videoLink;
     private String pictureLink;
 
@@ -48,11 +48,11 @@ public class Exercise {
 
     // Getter and Setter methods
 
-    public Long getId() {
+    public String getId() {
         return Id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         Id = id;
     }
 
