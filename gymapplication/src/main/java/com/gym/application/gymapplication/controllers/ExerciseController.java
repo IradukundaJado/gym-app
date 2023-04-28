@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import com.gym.application.gymapplication.entities.Exercise;
 import com.gym.application.gymapplication.model.ExerciseApi;
 import com.gym.application.gymapplication.model.ExerciseFileApi;
+import com.gym.application.gymapplication.model.ExerciseSearch;
 import com.gym.application.gymapplication.services.ExerciseService;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -81,6 +82,30 @@ public class ExerciseController {
 
         }catch (Exception e){
             throw new Exception("Exception while trying to update exercise information");
+        }
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<?> searchExercises(@RequestBody ExerciseSearch exerciseSearch) throws Exception {
+        try {
+            if(exerciseSearch == null){
+                throw  new Exception("Please provide search related data");
+            }
+
+            if(exerciseSearch.getFieldName() == null ||  exerciseSearch.getFieldName().toString()
+                    .isEmpty()){
+                throw  new Exception("Pleas provide field you trying to search on");
+            }
+
+            if(exerciseSearch.getValue() == null  ||  exerciseSearch.getValue().toString().isEmpty()){
+                throw new Exception("Please provide search value");
+            }
+            List<ExerciseApi> exercises =  this.exerciseService.searchExercise(exerciseSearch)
+                    .stream().map(this::convertToApi).collect(Collectors.toList());
+
+            return  ResponseEntity.ok(exercises);
+        }catch (Exception e){
+            throw new Exception("Exception happened while trying to search for exercises");
         }
     }
 
