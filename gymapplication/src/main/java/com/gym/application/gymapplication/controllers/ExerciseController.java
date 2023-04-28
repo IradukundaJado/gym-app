@@ -148,7 +148,6 @@ public class ExerciseController {
             }
             workbook.close();
             inputStream.close();
-            System.out.print("total exercised uploaded is "+exercises.size());
             this.exerciseService.bulkSave(exercises);
             return new ResponseEntity<>("Excel uploaded successfully with " + exercises.size() + " exercises", HttpStatus.OK);
         } catch (IOException e) {
