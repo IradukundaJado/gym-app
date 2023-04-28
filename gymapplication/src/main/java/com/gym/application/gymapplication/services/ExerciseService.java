@@ -33,5 +33,9 @@ public class ExerciseService {
     public void deleteExercise(String id) {
         exerciseRepository.deleteById(id);
     }
+
+    public  List<Exercise> bulkSave(List<Exercise> exercises){
+        return  this.exerciseRepository.saveAll(exercises);
+    }
 }
 

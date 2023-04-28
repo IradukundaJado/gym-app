@@ -1,49 +1,48 @@
-package com.gym.application.gymapplication.entities;
+package com.gym.application.gymapplication.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.Id;
 import java.util.Date;
 import java.util.UUID;
 
-import javax.persistence.*;
+public class ExerciseFileApi {
 
 
-@Entity()
-public class Exercise {
-
-    @Id
     private String Id = UUID.randomUUID().toString();
 
     private String category;
     private String bodySection;
-    private String equipment;
+    private String equipments;
     private String name;
-    private String primaryMuscle;
-    private String secondaryMuscle;
-    private int exerciseId;
+    @JsonProperty("primaryMuscles")
+    private String primaryMuscles;
+    @JsonProperty("secondaryMuscles")
+    private String secondaryMuscles;
+
     private String exerciseType;
     private Date createdOn = new Date();
-    @Column(length = 500)
     private String videoLink;
-    @Column(length = 500)
     private String pictureLink;
 
     // Constructor
-    public Exercise(String category, String bodySection, String equipment, String name, String primaryMuscle,
-                    String secondaryMuscle, int exerciseId, String exerciseType, Date createdOn, String videoLink,
+    public ExerciseFileApi(String category, String bodySection, String equipment, String name, String primaryMuscle,
+                    String secondaryMuscle, String exerciseType, Date createdOn, String videoLink,
                     String pictureLink) {
         this.category = category;
         this.bodySection = bodySection;
-        this.equipment = equipment;
+        this.equipments = equipment;
         this.name = name;
-        this.primaryMuscle = primaryMuscle;
-        this.secondaryMuscle = secondaryMuscle;
-        this.exerciseId = exerciseId;
+        this.primaryMuscles = primaryMuscle;
+        this.secondaryMuscles = secondaryMuscle;
         this.exerciseType = exerciseType;
         this.createdOn = createdOn;
         this.videoLink = videoLink;
         this.pictureLink = pictureLink;
     }
 
-    public Exercise(){}
+    public ExerciseFileApi
+            (){}
 
     // Getter and Setter methods
 
@@ -72,11 +71,11 @@ public class Exercise {
     }
 
     public String getEquipment() {
-        return equipment;
+        return equipments;
     }
 
     public void setEquipment(String equipment) {
-        this.equipment = equipment;
+        this.equipments = equipment;
     }
 
     public String getName() {
@@ -88,28 +87,24 @@ public class Exercise {
     }
 
     public String getPrimaryMuscle() {
-        return primaryMuscle;
+        return primaryMuscles;
     }
 
     public void setPrimaryMuscle(String primaryMuscle) {
-        this.primaryMuscle = primaryMuscle;
+        this.primaryMuscles = primaryMuscle;
     }
 
     public String getSecondaryMuscle() {
-        return secondaryMuscle;
+        return secondaryMuscles;
     }
 
     public void setSecondaryMuscle(String secondaryMuscle) {
-        this.secondaryMuscle = secondaryMuscle;
+        this.secondaryMuscles = secondaryMuscle;
     }
 
-    public int getExerciseId() {
-        return exerciseId;
-    }
 
-    public void setExerciseId(int exerciseId) {
-        this.exerciseId = exerciseId;
-    }
+
+
 
     public String getExerciseType() {
         return exerciseType;
@@ -149,16 +144,15 @@ public class Exercise {
                 "Id='" + Id + '\'' +
                 ", category='" + category + '\'' +
                 ", bodySection='" + bodySection + '\'' +
-                ", equipment='" + equipment + '\'' +
+                ", equipment='" + equipments + '\'' +
                 ", name='" + name + '\'' +
-                ", primaryMuscle='" + primaryMuscle + '\'' +
-                ", secondaryMuscle='" + secondaryMuscle + '\'' +
-                ", exerciseId=" + exerciseId +
+                ", primaryMuscles='" + primaryMuscles + '\'' +
+                ", secondaryMuscles='" + secondaryMuscles + '\'' +
                 ", exerciseType='" + exerciseType + '\'' +
                 ", createdOn=" + createdOn +
                 ", videoLink='" + videoLink + '\'' +
                 ", pictureLink='" + pictureLink + '\'' +
                 '}';
     }
-}
 
+}

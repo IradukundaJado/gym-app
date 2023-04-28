@@ -3,16 +3,19 @@ package com.gym.application.gymapplication.controllers;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.gym.application.gymapplication.entities.Exercise;
 import com.gym.application.gymapplication.model.ExerciseApi;
+import com.gym.application.gymapplication.model.ExerciseFileApi;
 import com.gym.application.gymapplication.services.ExerciseService;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +34,7 @@ public class ExerciseController {
     @PostMapping("")
     public  ResponseEntity<?> createAnExercise(@RequestBody ExerciseApi exercise) throws Exception {
         try {
+
             Exercise createdExercise =  this.exerciseService
                                         .createExercise(convertToEntity(exercise));
             return  ResponseEntity.ok(convertToApi(createdExercise));
@@ -81,33 +85,50 @@ public class ExerciseController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadCSVFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> uploadExcel(@RequestBody MultipartFile file) {
         try {
             InputStream inputStream = file.getInputStream();
-            CSVParser csvParser = new CSVParser(new InputStreamReader(inputStream), CSVFormat.DEFAULT
-                    .withFirstRecordAsHeader()
-                    .withIgnoreHeaderCase()
-                    .withTrim());
-            List<CSVRecord> csvRecords = csvParser.getRecords();
-            for (CSVRecord csvRecord : csvRecords) {
-                ExerciseApi exercise = new ExerciseApi();
-                exercise.setCategory(csvRecord.get("Category"));
-                exercise.setBodySection(csvRecord.get("BodySection"));
-                exercise.setEquipments(csvRecord.get("Equipments").split(","));
-                exercise.setName(csvRecord.get("Name"));
-                exercise.setPrimaryMuscles(csvRecord.get("PrimaryMuscles").split(","));
-                exercise.setSecondaryMuscles(csvRecord.get("SecondaryMuscles").split(","));
-                exercise.setCreatedOn(new Date());
-                exercise.setVideoLink(csvRecord.get("videoLink"));
-                exercise.setPictureLink(csvRecord.get("pictureLink"));
-                exerciseService.
-                            createExercise(convertToEntity(exercise));
+            Workbook workbook = WorkbookFactory.create(inputStream);
+            Sheet sheet = workbook.getSheetAt(0); // Replace with your sheet index
+            List<Exercise> exercises = new ArrayList<>();
+            for (Row row : sheet) {
+                if(row.getCell(0) != null) {
+                    Exercise exercise = new Exercise();
+                    Cell category = row.getCell(0);
+                    Cell bodySection = row.getCell(1);
+                    Cell equipment = row.getCell(2);
+                    Cell name = row.getCell(3);
+                    Cell primaryMuscles = row.getCell(4);
+                    Cell secondaryMuscles = row.getCell(5);
+                    Cell videoLink = row.getCell(6);
+                    Cell pictureLink = row.getCell(7);
+
+
+                    exercise.setCategory(category != null ? category.toString() : "");
+                    exercise.setBodySection(bodySection != null ? bodySection.toString() : "");
+                    exercise.setName(name != null ? name.toString() : "");
+                    exercise.setEquipment(equipment != null ? equipment.toString() : "");
+                    exercise.setPrimaryMuscle(primaryMuscles != null ?
+                            primaryMuscles.toString() : "");
+                    exercise.setSecondaryMuscle(secondaryMuscles != null ?
+                            secondaryMuscles.toString() : "");
+                    if (videoLink != null && videoLink.toString().length() <= 500) {
+                        exercise.setVideoLink(videoLink.toString());
+                    }
+                    if (pictureLink != null && pictureLink.toString().length() <= 500) {
+                        exercise.setPictureLink(pictureLink.toString());
+                    }
+                    exercises.add(exercise);
+                }
             }
-            csvParser.close();
-            return new ResponseEntity<>("CSV file uploaded successfully", HttpStatus.OK);
+            workbook.close();
+            inputStream.close();
+            System.out.print("total exercised uploaded is "+exercises.size());
+            this.exerciseService.bulkSave(exercises);
+            return new ResponseEntity<>("Excel uploaded successfully with " + exercises.size() + " exercises", HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Could not upload CSV file", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Error uploading Excel: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
