@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.gym.application.gymapplication.entities.Exercise;
@@ -40,6 +41,7 @@ public class ExerciseController {
                                         .createExercise(convertToEntity(exercise));
             return  ResponseEntity.ok(convertToApi(createdExercise));
         }catch (Exception e){
+            e.printStackTrace();
             throw new Exception("An error happened while trying to create new exercise");
         }
     }
@@ -161,13 +163,20 @@ public class ExerciseController {
         Exercise exercise = new Exercise();
         exercise.setCategory(exerciseApi.getCategory());
         exercise.setBodySection(exerciseApi.getBodySection());
-        exercise.setEquipment(String.join(",",exerciseApi.getEquipments()));
+        if(exerciseApi.getEquipments()  != null) {
+            exercise.setEquipment(String.join(",", exerciseApi.getEquipments()));
+        }
         exercise.setName(exerciseApi.getName());
-        exercise.setPrimaryMuscle(String.join(",",exerciseApi.getPrimaryMuscles()));
-        exercise.setSecondaryMuscle(String.join(",",exerciseApi.getSecondaryMuscles()));
+        if(exerciseApi.getPrimaryMuscles() != null) {
+            exercise.setPrimaryMuscle(String.join(",", exerciseApi.getPrimaryMuscles()));
+        }
+        if(exerciseApi.getSecondaryMuscles() != null) {
+            exercise.setSecondaryMuscle(String.join(",", exerciseApi.getSecondaryMuscles()));
+        }
         exercise.setCreatedOn(new Date());
         exercise.setVideoLink(exercise.getVideoLink());
         exercise.setPictureLink(exercise.getPictureLink());
+        exercise.setId(exerciseApi.getId() != null ? exerciseApi.getId() : UUID.randomUUID().toString());
         return  exercise;
     }
 
@@ -175,10 +184,16 @@ public class ExerciseController {
         ExerciseApi exerciseApi = new ExerciseApi();
         exerciseApi.setCategory(exercise.getCategory());
         exerciseApi.setBodySection(exercise.getBodySection());
-        exerciseApi.setEquipments(exercise.getEquipment().split(","));
+        if(exercise.getEquipment() != null) {
+            exerciseApi.setEquipments(exercise.getEquipment().split(","));
+        }
         exerciseApi.setName(exercise.getName());
-        exerciseApi.setPrimaryMuscles(exercise.getPrimaryMuscle().split(","));
-        exerciseApi.setSecondaryMuscles(exercise.getSecondaryMuscle().split(","));
+        if(exercise.getPrimaryMuscle() != null) {
+            exerciseApi.setPrimaryMuscles(exercise.getPrimaryMuscle().split(","));
+        }
+        if(exercise.getSecondaryMuscle() != null) {
+            exerciseApi.setSecondaryMuscles(exercise.getSecondaryMuscle().split(","));
+        }
         exerciseApi.setCreatedOn(exercise.getCreatedOn());
         exerciseApi.setVideoLink(exercise.getVideoLink());
         exerciseApi.setPictureLink(exercise.getPictureLink());

@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Exercise {
 
     @Id
-    private String Id = UUID.randomUUID().toString();
+    private String Id;
 
     private String category;
     private String bodySection;
