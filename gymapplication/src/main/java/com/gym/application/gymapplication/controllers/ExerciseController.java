@@ -74,6 +74,17 @@ public class ExerciseController {
         }
     }
 
+    @DeleteMapping("/{exerciseId}")
+    public  ResponseEntity<?> deleteExercise(@PathVariable("exerciseId") String exerciseId) throws  Exception{
+        try {
+
+            this.exerciseService.deleteExercise(exerciseId);
+            return  ResponseEntity.ok("Exercise deleted successfully");
+        }catch (Exception e){
+            throw  new Exception("Exception happened while trying to get exercise");
+        }
+    }
+
     @PatchMapping("/{exerciseId}")
     public ResponseEntity<?> updateExerciseById(@PathVariable("exerciseId") String exerciseId,
                                                 @RequestBody ExerciseApi exerciseApi) throws Exception {
