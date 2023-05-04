@@ -53,11 +53,11 @@ public class ExerciseService {
             return  this.exerciseRepository.findByBodySectionContainingIgnoreCase(exerciseSearch.getValue());
         }
 
-        if(exerciseSearch.getFieldName().toString().equalsIgnoreCase(Type.primaryMuscle.toString())){
+        if(exerciseSearch.getFieldName().toString().equalsIgnoreCase(Type.primaryMuscles.toString())){
             return  this.exerciseRepository.findByPrimaryMuscleContainingIgnoreCase(exerciseSearch.getValue());
         }
 
-        if(exerciseSearch.getFieldName().toString().equalsIgnoreCase(Type.secondaryMuscle.toString())){
+        if(exerciseSearch.getFieldName().toString().equalsIgnoreCase(Type.secondaryMuscles.toString())){
             return  this.exerciseRepository.findBySecondaryMuscleContainingIgnoreCase(exerciseSearch.getValue());
         }
         return  new ArrayList<>();

@@ -5,7 +5,7 @@ public enum Type {
     category,
     name,
     bodySection,
-    primaryMuscle,
-    secondaryMuscle,
+    primaryMuscles,
+    secondaryMuscles,
 
 }
