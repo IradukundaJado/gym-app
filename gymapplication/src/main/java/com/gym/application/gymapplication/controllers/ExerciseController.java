@@ -90,11 +90,14 @@ public class ExerciseController {
     public ResponseEntity<?> updateExerciseById(@PathVariable("exerciseId") String exerciseId,
                                                 @RequestBody ExerciseApi exerciseApi) throws Exception {
         try {
+            this.exerciseService.deleteExercise(exerciseId);
+            exerciseApi.setId(exerciseId);
             Exercise updatedExercise =  this.exerciseService
                     .createExercise(convertToEntity(exerciseApi));
             return  ResponseEntity.ok(convertToApi(updatedExercise));
 
         }catch (Exception e){
+            e.printStackTrace();
             throw new Exception("Exception while trying to update exercise information");
         }
     }
