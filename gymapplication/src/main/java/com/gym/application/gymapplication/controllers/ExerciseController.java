@@ -81,6 +81,7 @@ public class ExerciseController {
             this.exerciseService.deleteExercise(exerciseId);
             return  ResponseEntity.ok("Exercise deleted successfully");
         }catch (Exception e){
+            e.printStackTrace();
             throw  new Exception("Exception happened while trying to get exercise");
         }
     }
@@ -141,7 +142,7 @@ public class ExerciseController {
                     Cell videoLink = row.getCell(6);
                     Cell pictureLink = row.getCell(7);
 
-
+                    exercise.setId(UUID.randomUUID().toString());
                     exercise.setCategory(category != null ? category.toString() : "");
                     exercise.setBodySection(bodySection != null ? bodySection.toString() : "");
                     exercise.setName(name != null ? name.toString() : "");
