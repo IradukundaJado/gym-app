@@ -20,6 +20,8 @@ public interface ExerciseRepository extends JpaRepository<Exercise, String> {
 
     List<Exercise> findBySecondaryMuscleContainingIgnoreCase(String value);
 
+    List<Exercise> findByEquipmentContainingIgnoreCase(String value);
+
 
 
 }

@@ -60,6 +60,10 @@ public class ExerciseService {
         if(exerciseSearch.getFieldName().toString().equalsIgnoreCase(Type.secondaryMuscles.toString())){
             return  this.exerciseRepository.findBySecondaryMuscleContainingIgnoreCase(exerciseSearch.getValue());
         }
+
+        if(exerciseSearch.getFieldName().toString().equalsIgnoreCase(Type.Equipment.toString())){
+            return  this.exerciseRepository.findByEquipmentContainingIgnoreCase(exerciseSearch.getValue());
+        }
         return  new ArrayList<>();
     }
 }

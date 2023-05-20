@@ -8,4 +8,6 @@ public enum Type {
     primaryMuscles,
     secondaryMuscles,
 
+    Equipment
+
 }
